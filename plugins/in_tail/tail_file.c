@@ -2207,31 +2207,31 @@ int flb_tail_file_purge(struct flb_input_instance *ins,
 
     /* Rotated files */
     now = time(NULL);
-    mk_list_foreach_safe(head, tmp, &ctx->files_rotated) {
-        file = mk_list_entry(head, struct flb_tail_file, _rotate_head);
-        if ((file->rotated + ctx->rotate_wait) <= now) {
-            ret = fstat(file->fd, &st);
-            if (ret == 0) {
-                flb_plg_debug(ctx->ins,
-                              "inode=%"PRIu64" purge rotated file %s " \
-                              "(offset=%"PRId64" / size = %"PRIu64")",
-                              file->inode, file->name, file->offset, (uint64_t)st.st_size);
-                if (file->pending_bytes > 0 && flb_input_buf_paused(ins)) {
-                    flb_plg_warn(ctx->ins, "purged rotated file while data "
-                                 "ingestion is paused, consider increasing "
-                                 "rotate_wait");
-                }
-            }
-            else {
-                flb_plg_debug(ctx->ins,
-                              "inode=%"PRIu64" purge rotated file %s (offset=%"PRId64")",
-                              file->inode, file->name, file->offset);
-            }
+    // mk_list_foreach_safe(head, tmp, &ctx->files_rotated) {
+    //     file = mk_list_entry(head, struct flb_tail_file, _rotate_head);
+    //     if ((file->rotated + ctx->rotate_wait) <= now) {
+    //         ret = fstat(file->fd, &st);
+    //         if (ret == 0) {
+    //             flb_plg_debug(ctx->ins,
+    //                           "inode=%"PRIu64" purge rotated file %s " \
+    //                           "(offset=%"PRId64" / size = %"PRIu64")",
+    //                           file->inode, file->name, file->offset, (uint64_t)st.st_size);
+    //             if (file->pending_bytes > 0 && flb_input_buf_paused(ins)) {
+    //                 flb_plg_warn(ctx->ins, "purged rotated file while data "
+    //                              "ingestion is paused, consider increasing "
+    //                              "rotate_wait");
+    //             }
+    //         }
+    //         else {
+    //             flb_plg_debug(ctx->ins,
+    //                           "inode=%"PRIu64" purge rotated file %s (offset=%"PRId64")",
+    //                           file->inode, file->name, file->offset);
+    //         }
 
-            flb_tail_file_remove(file);
-            count++;
-        }
-    }
+    //         flb_tail_file_remove(file);
+    //         count++;
+    //     }
+    // }
 
     /*
      * Deleted files: under high load scenarios, exists the chances that in
